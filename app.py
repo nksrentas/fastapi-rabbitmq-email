@@ -11,5 +11,5 @@ app.include_router(router)
 
 @app.on_event('startup')
 async def startup():
-    await amqp_handler.init()
+    # await amqp_handler.init()
     await amqp_handler_v2.init()

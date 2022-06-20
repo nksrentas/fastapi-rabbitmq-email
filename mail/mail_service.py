@@ -45,5 +45,12 @@ class MailService:
         Mock function to send an email
         """
         print('Mock email sent')
+    
+    def mock_raise_exception_send_email(self):
+        """
+        Mock function to raise an exception
+        """
+        raise Exception('Mock exception')
+
 
 mail_service = MailService()

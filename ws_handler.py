@@ -12,8 +12,8 @@ class WSHandler:
         id_ = uuid4()
 
         self.connection[id_] = websocket
-        from amqp import amqp_handler
-        await amqp_handler.publish(
+        from rabbitmq.amqp_v2 import amqp_handler_v2
+        await amqp_handler_v2.publish(
             {
                 'from': 'SYSTEM',
                 'message': f'{id_} connected',
@@ -22,8 +22,8 @@ class WSHandler:
         return id_
 
     async def delete_connection(self, *, id_):
-        from amqp import amqp_handler
-        await amqp_handler.publish(
+        from rabbitmq.amqp_v2 import amqp_handler_v2
+        await amqp_handler_v2.publish(
             {
                 'from': 'SYSTEM',
                 'message': f'{id_} disconnected',
@@ -32,9 +32,9 @@ class WSHandler:
         del self.connection[id_]
 
     async def handle_message(self, *, id_, data):
-        from amqp import amqp_handler
+        from rabbitmq.amqp_v2 import amqp_handler_v2
 
-        await amqp_handler.publish({'from': str(id_), 'message': data})
+        await amqp_handler_v2.publish({'from': str(id_), 'message': data})
 
     async def notify_all(self, *, message):
         for id_, ws_inst in self.connection.items():
